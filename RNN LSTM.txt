@@ -1,0 +1,50 @@
+
+Limitations of Artificial Neural network(and convolution neural network) = They take fix amount of input and produces fix amount of output using fixed no of steps(no of layers.)
+Above Excerpt from below link.
+http://karpathy.github.io/2015/05/21/rnn-effectiveness/
+
+Nice visualization of internals of RNN and LSTM and in depth explaination of LSTM.
+https://colah.github.io/posts/2015-08-Understanding-LSTMs/
+
+build RNN from scratch
+http://wp.firrm.de/index.php/2018/04/13/building-a-lstm-network-completely-from-scratch-no-libraries/
+
+If your input and output is fixed vector then also you can process them in sequential manner.(use RNN)
+
+unrolled view = instead of showing the one decoder, we show a copy of it for each time step. This way we can look at the inputs and outputs of each time step.
+
+how RNN works ?
+RNN takes x as input and returns y as output. However output vector is affected by not only input x but also entire history of inputs that we fed in past.
+
+what is hidden state in RNN (or cell state in LSTM) ?
+hidden state is vector representation of of complete sequence(sentence).
+
+RNN internals (from colah blog explaining LSTM) = RNN takes two inputs one is hidden state and other is input word embedding then it do following operations on it.
+	1) It will concatenate both the inputs.
+	2) apply tanh function on merged input.
+	3) copy tanh output to both hidden state and output.
+
+how to initialize hidden state ?
+In simplest way we can initialize hidden state with zero vector.
+
+how to train RNN model ?
+We initialize the matrices of the RNN with random numbers and the bulk of work during training goes into finding the matrices that give rise to desirable behavior, as measured with some loss function that expresses your preference to what kinds of outputs y you’d like to see in response to your input sequences x.
+
+Limitations of RNN ?
+RNN can only handle short-term dependancies and are unable to handle long term dependancies. i.e. If we are trying to predict the last word in “the clouds are in the sky,” RNN are capable of doing this but Consider trying to predict the last word in the text “I grew up in France… I speak fluent French.” Unfortunately, as that gap grows, RNNs become unable to learn to connect the information. Thankfully, LSTMs don’t have this problem!
+
+LSTM (Long Short Term Memory) = special kind of RNN, capable of learning long-term dependencies. Remembering information for long periods of time is practically their default behavior. In LSTM we pass cell state(hidden state in RNN) from one LSTM to next LSTM.
+
+LSTM internals (from colah LSTM blog) 
+	LSTM takes three inputs 1) cell state 2) output of previous LSTM 3) input (word embedding)
+	It will apply some functions on cell state they do following three operations.
+		1) what to forget (first gate) = we concatenate input and output and then we apply sigmoid function and at the end we multiply it with prev celll state to get current cell state.  
+		2) what to store (second gate) = 
+		3) what to output (third gate)
+
+GRU (Gated Recurrent Network) = It combines the forget and input gates into a single “update gate.” It also merges the cell state and hidden state. 
+
+There’s also some completely different approach to tackling long-term dependencies, like Clockwork RNN.
+
+LSTMs were a big step in what we can accomplish with RNNs. It’s natural to wonder: is there another big step? A common opinion among researchers is: “Yes! There is a next step and it’s attention!” The idea is to let every step of an RNN pick information to look at from some larger collection of information. For example, if you are using an RNN to create a caption describing an image, it might pick a part of the image to look at for every word it outputs.
+
